@@ -1,5 +1,5 @@
 from src.ml.model_ml import train_lgbm
-from src.ml.inference_ml import build_history, recursive_pred
+from src.ml.inference_ml import build_history, recursive_forecast
 from src.metrics import nwrmsle
 
 
@@ -9,7 +9,7 @@ def run_train(train_df, val_df, X_train, y_val, cat_cols):
 
     history = build_history(train_df)
 
-    pred_val = recursive_pred(val_df, X_train, model, history, cat_cols)
+    pred_val = recursive_forecast(val_df, X_train, model, history, cat_cols)
 
     score = nwrmsle(
         y_val.values,
