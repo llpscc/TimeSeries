@@ -1,0 +1,11 @@
+numpy
+pandas
+matplotlib
+tqdm
+torch
+lightgbm
+statsforecast
+statsmodels
+pytorch-forecasting
+lightning
+py7zr
