@@ -38,7 +38,7 @@ def train_val_split(sf_df):
     return train_sf, val_sf
 
 
-def run_baselines(train_sf, val_sf, items):
+def run_baselines(train_sf, items):
 
     models = [
         Naive(),
