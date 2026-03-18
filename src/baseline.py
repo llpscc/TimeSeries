@@ -38,7 +38,8 @@ def train_val_split(sf_df):
     return train_sf, val_sf
 
 
-def build_sf():
+def run_baselines(train_sf, val_sf, items):
+
     models = [
         Naive(),
         SeasonalNaive(season_length=SEASON_LENGTH),
@@ -46,12 +47,14 @@ def build_sf():
         AutoTheta(season_length=SEASON_LENGTH)
     ]
 
-    return StatsForecast(
+    sf = StatsForecast(
         models=models,
         freq=FREQ,
-        n_jobs=1,
+        n_jobs=-1,
         verbose=True
     )
+
+    forecast = sf.forecast(df=train_sf, h=HORIZON)
 
 def merge_sf_forecast(forecast, val_sf, items):
     eval_df = forecast.merge(val_sf, on=["unique_id", "ds"], how="left")
