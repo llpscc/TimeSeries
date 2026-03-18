@@ -21,7 +21,7 @@ def set_categories(X_train, X_val, cat_cols):
     return X_train, X_val
 
 
-def train_lgbm(X_train, y_train):
+def train_lgbm(X_train, y_train, cat_cols):
 
     model = lgb.LGBMRegressor(
         n_estimators=100,
@@ -35,6 +35,6 @@ def train_lgbm(X_train, y_train):
         force_col_wise=True
     )
 
-    model.fit(X_train, y_train)
+    model.fit(X_train, y_train, categorical_feature=cat_cols)
 
     return model

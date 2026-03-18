@@ -24,8 +24,21 @@ def add_lags(df: pd.DataFrame, lags=[1, 7, 14, 28]):
     for lag in lags:
         df[f"lag_{lag}"] = grp.shift(lag)
 
-    df["rolling_mean_7"] = grp.shift(1).rolling(7).mean()
-    df["rolling_mean_14"] = grp.shift(1).rolling(14).mean()
+    df["rolling_mean_7"] = (
+        grp.shift(1)
+        .groupby([df["store_nbr"], df["item_nbr"]])
+        .rolling(7)
+        .mean()
+        .reset_index(level=[0,1], drop=True)
+    )
+
+    df["rolling_mean_14"] = (
+        grp.shift(1)
+        .groupby([df["store_nbr"], df["item_nbr"]])
+        .rolling(14)
+        .mean()
+        .reset_index(level=[0,1], drop=True)
+    )
 
     return df
 
