@@ -16,7 +16,7 @@ def preprocess_train(train: pd.DataFrame) -> pd.DataFrame:
 
 
 def select_top_items(train: pd.DataFrame, top_n: int = 5000) -> pd.DataFrame:
-    
+    # выбирает 5000 самых активных рядов для экспериментов
     top_items = (
         train.groupby(["store_nbr", "item_nbr"])["unit_sales"]
         .sum()
