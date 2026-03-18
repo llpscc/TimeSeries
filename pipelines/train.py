@@ -5,7 +5,7 @@ from src.metrics import nwrmsle
 
 def run_train(train_df, val_df, X_train, y_val, cat_cols):
 
-    model = train_lgbm(X_train, train_df["unit_sales"])
+    model = train_lgbm(X_train, train_df["unit_sales"], cat_cols)
 
     history = build_history(train_df)
 
