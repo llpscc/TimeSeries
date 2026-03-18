@@ -1,0 +1,8 @@
+HORIZON = 16
+START_TRAIN_SIZE = 180
+STEP_SIZE = 7
+
+SEASON_LENGTH = 7
+FREQ = "D"
+
+max_encoder_length = 60
