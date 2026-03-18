@@ -51,7 +51,7 @@ def run_baselines(train_sf, val_sf, items):
         models=models,
         freq=FREQ,
         n_jobs=-1,
-        verbose=False
+        verbose=True
     )
 
     forecast = sf.forecast(df=train_sf, h=HORIZON)
