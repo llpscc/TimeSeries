@@ -2,7 +2,7 @@ import lightgbm as lgb
 
 
 def prepare_data(train_df, val_df):
-
+    удаляет лишние колонки и выделяет таргет
     X_train = train_df.drop(columns=["unit_sales", "date", "unique_id", 'id'], errors="ignore")
     y_train = train_df["unit_sales"]
 
