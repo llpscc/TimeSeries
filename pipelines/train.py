@@ -1,5 +1,5 @@
-from src.models import train_lgbm
-from src.inference import build_history, recursive_pred
+from src.ml.model_ml import train_lgbm
+from src.ml.inference_ml import build_history, recursive_pred
 from src.metrics import nwrmsle
 
 
