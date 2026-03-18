@@ -1,12 +1,12 @@
 import lightgbm as lgb
 
 
-def prepare_data(train_df, val_df, drop_cols):
+def prepare_data(train_df, val_df):
 
-    X_train = train_df.drop(columns=drop_cols, errors="ignore")
+    X_train = train_df.drop(columns=["unit_sales", "date", "unique_id", 'id'], errors="ignore")
     y_train = train_df["unit_sales"]
 
-    X_val = val_df.drop(columns=drop_cols, errors="ignore")
+    X_val = val_df.drop(columns=["unit_sales", "unique_id", 'id'], errors="ignore")
     y_val = val_df["unit_sales"]
 
     return X_train, y_train, X_val, y_val
