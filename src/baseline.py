@@ -9,19 +9,20 @@ from src.metrics import nwrmsle
 
 
 def prepare_sf_data(train_5000: pd.DataFrame):
-
+    # копия датасета
     sf_df = train_5000.copy()
 
+    # создаем признак id ряда 
     sf_df["unique_id"] = (
         sf_df["store_nbr"].astype(str) + "_" +
         sf_df["item_nbr"].astype(str)
     )
-
+    # приводим названия колонок к виду, который ожидает StatsForecast
     sf_df = sf_df.rename(columns={
         "date": "ds",
         "unit_sales": "y"
     })
-
+    # сортируем
     sf_df = sf_df[["unique_id", "ds", "y"]].sort_values(["unique_id", "ds"])
 
     return sf_df
@@ -63,12 +64,13 @@ def merge_sf_forecast(forecast, val_sf, items):
 
     eval_df["item_nbr"] = eval_df["unique_id"].str.split("_").str[1].astype(int)
 
+    # добавляем признак perishable для весов
     eval_df = eval_df.merge(
         items[["item_nbr", "perishable"]],
         on="item_nbr",
         how="left"
     )
-
+    # обрезаем отрицательнве значения
     eval_df["y"] = np.clip(eval_df["y"], 0, None)
 
     for model in ["Naive", "SeasonalNaive", "AutoETS", "AutoTheta"]:
@@ -80,7 +82,7 @@ def compute_sf_metrics(eval_df):
     eval_df["weight"] = np.where(eval_df["perishable"] == 1, 1.25, 1.0)
 
     metrics = {}
-
+    # считаем метрики
     for model in ["Naive", "SeasonalNaive", "AutoETS", "AutoTheta"]:
         score = nwrmsle(
             eval_df["y"].values,
