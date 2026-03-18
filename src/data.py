@@ -4,8 +4,8 @@ import py7zr
 
 
 def extract_data(data_path: Path, out_path: Path):
-    out_path.mkdir(exist_ok=True)
-
+    OUT_PATH.mkdir(exist_ok=True)
+    
     files = [
         "train.csv.7z",
         "test.csv.7z",
@@ -16,10 +16,12 @@ def extract_data(data_path: Path, out_path: Path):
         "transactions.csv.7z",
         "sample_submission.csv.7z"
     ]
-
+    
     for file in files:
-        with py7zr.SevenZipFile(data_path / file, mode="r") as z:
-            z.extractall(path=out_path)
+        with py7zr.SevenZipFile(DATA_PATH / file, mode="r") as z:
+            z.extractall(path=OUT_PATH)
+    
+    print("Done extracting!")
 
 
 def load_data(out_path: Path):
@@ -30,13 +32,13 @@ def load_data(out_path: Path):
         "unit_sales": "float32"
     }
 
-    train = pd.read_csv(out_path / "train.csv", dtype=dtypes, parse_dates=["date"])
-    test = pd.read_csv(out_path / "test.csv", dtype=dtypes, parse_dates=["date"])
-
-    stores = pd.read_csv(out_path / "stores.csv")
-    items = pd.read_csv(out_path / "items.csv")
-    oil = pd.read_csv(out_path / "oil.csv", parse_dates=["date"])
-    holidays = pd.read_csv(out_path / "holidays_events.csv", parse_dates=["date"])
-    transactions = pd.read_csv(out_path / "transactions.csv", parse_dates=["date"])
-
+    train = pd.read_csv("/kaggle/working/favorita/train.csv", dtype=dtypes, parse_dates=["date"])
+    test = pd.read_csv("/kaggle/working/favorita/test.csv", dtype=dtypes,parse_dates=["date"])
+    
+    stores = pd.read_csv("/kaggle/working/favorita/stores.csv", dtype=dtypes)
+    items = pd.read_csv("/kaggle/working/favorita/items.csv", dtype=dtypes)
+    oil = pd.read_csv("/kaggle/working/favorita/oil.csv", dtype=dtypes, parse_dates=["date"])
+    holidays = pd.read_csv("/kaggle/working/favorita/holidays_events.csv", dtype=dtypes, parse_dates=["date"])
+    transactions = pd.read_csv("/kaggle/working/favorita/transactions.csv", dtype=dtypes, parse_dates=["date"])
+    print("Файлы загружены, форма train:", train.shape)
     return train, test, stores, items, oil, holidays, transactions
