@@ -55,6 +55,7 @@ def run_baselines(train_sf, val_sf, items):
     )
 
     forecast = sf.forecast(df=train_sf, h=HORIZON)
+    return forecast
 
 def merge_sf_forecast(forecast, val_sf, items):
     eval_df = forecast.merge(val_sf, on=["unique_id", "ds"], how="left")
